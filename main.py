@@ -1234,7 +1234,7 @@ def generate_checklist_pdf(data: dict, template_path="checklist.png") -> bytes:
     draw_wrapped(data.get("vessel_voyage", ""), 200, h - 410, 400)
 
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(450, h - 390, f"B/L NO.: {data.get('invoice_no', '')}")
+    c.drawString(230, h - 200, f"B/L NO.: {data.get('invoice_no', '')}")
 
     # GOODS table boxes mapping (tuned positions)
     left_box_x = 50          # fine tune columns
@@ -1357,6 +1357,11 @@ def generate_checklist_pdf(data: dict, template_path="checklist.png") -> bytes:
     c.setFont(data_font, data_size)
     # right-edge is w - 70; limit to 2 lines and align right
     draw_wrapped_box(place_date_text, w - 70, data_y, 180, max_lines=2, align='right', font=data_font, font_size=data_size)
+    
+    # --- SHIPPING BILL NUMBER ---
+    sb_number = ''.join(random.choices(string.ascii_uppercase, k=2)) + ''.join(random.choices(string.digits, k=8))
+    c.setFont("Helvetica-Bold", 10)
+    c.drawString(200, h - 160, sb_number)
 
     c.save()
     return buffer.getvalue()
